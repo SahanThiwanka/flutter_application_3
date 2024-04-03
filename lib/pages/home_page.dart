@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Google Sign In"),
+        title: const Text("Home Page"),
       ),
       body: _user != null ? _userInfo() : _googleSignInButton(),
     );
@@ -45,40 +45,38 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _userInfo() {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children:[Container(
-          height: 100,
-          width: 100,
-          decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(_user!.photoURL!),
-          ),
-          ),
+    return ListView(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.3,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children:[Container(
+              height: 100,
+              width: 100,
+              decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(_user!.photoURL!),
+              ),
+              ),
+            ),
+            Text(_user!.displayName ?? ""),
+            Text(_user!.email!),
+            MaterialButton(
+              color: Colors.red,
+              child: Text("Sign Out"),
+              onPressed: _auth.signOut,
+            ),
+            SizedBox(height: 10), // Add some spacing between buttons
+            ],
         ),
-        Text(_user!.displayName ?? ""),
-        Text(_user!.email!),
-        MaterialButton(
-          color: Colors.red,
-          child: Text("Sign Out"),
-          onPressed: _auth.signOut,
+        
         ),
-        SizedBox(height: 10), // Add some spacing between buttons
-        MaterialButton(
-          color: Colors.blue,
-          child: Text("Go to Product List"),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ProducListPage()),
-            );
-          },
-        ),
-        ],
-    ),
-    
+      ProducListPage()
+
+
+      ],
     );
     
   }
