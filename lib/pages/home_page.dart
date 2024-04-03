@@ -39,12 +39,43 @@ class _HomePageState extends State<HomePage> {
   Widget _googleSignInButton() {
     return Center(child: SizedBox(
       height: 50,
-      child: SignInButton(Buttons.google, text: "Sign in with Google", onPressed: () {},),
+      child: SignInButton(Buttons.google, text: "Sign in with Google", onPressed: _handleGoogleSignIn,),
     ),);
   }
 
   Widget _userInfo() {
-    return SizedBox();
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children:[Container(
+          height: 100,
+          width: 100,
+          decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(_user!.photoURL!),
+          ),
+          ),
+        ),
+        Text(_user!.displayName ?? ""),
+        Text(_user!.email!),
+        MaterialButton(
+          color: Colors.red,
+          child: Text("Sign Out"),
+          onPressed: _auth.signOut,
+        )
+        
+        ]
+    ));
+    
   }
 
+  void _handleGoogleSignIn(){
+    try {
+      GoogleAuthProvider _googleAuthProvider = GoogleAuthProvider();
+      _auth.signInWithProvider(_googleAuthProvider);
+    }catch (error) {
+    print(error);
+    }
+  }
 }
