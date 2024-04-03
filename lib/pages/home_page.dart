@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sign_in_button/sign_in_button.dart';
+import 'package:flutter_application_3/pages/data_retrive.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required String title});
@@ -30,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Google SignIn"),
+        title: const Text("Google Sign In"),
       ),
       body: _user != null ? _userInfo() : _googleSignInButton(),
     );
@@ -63,10 +64,22 @@ class _HomePageState extends State<HomePage> {
           color: Colors.red,
           child: Text("Sign Out"),
           onPressed: _auth.signOut,
-        )
-        
-        ]
-    ));
+        ),
+        SizedBox(height: 10), // Add some spacing between buttons
+        MaterialButton(
+          color: Colors.blue,
+          child: Text("Go to Product List"),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProducListPage()),
+            );
+          },
+        ),
+        ],
+    ),
+    
+    );
     
   }
 
@@ -78,4 +91,7 @@ class _HomePageState extends State<HomePage> {
     print(error);
     }
   }
+
+
+
 }
